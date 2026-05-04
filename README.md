@@ -36,6 +36,71 @@ aigc-rewrite/
 └── README.md         # 本文件
 ```
 
+## 安装步骤
+
+### 环境要求
+
+- **Python 3.8+** (analyze.py 与 rewrite_helper.py 仅依赖标准库,无需 pip 安装额外包)
+- **Claude Code** (如需通过 Skill 方式触发)
+- **Git** (可选,用于克隆仓库)
+
+### 方式一: 克隆仓库(推荐)
+
+```bash
+# 进入 Claude Code 用户级 skills 目录
+# macOS / Linux
+mkdir -p ~/.claude/skills
+cd ~/.claude/skills
+git clone https://github.com/hubo068/aigc_rewrite.git aigc-rewrite
+
+# Windows (PowerShell)
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills"
+cd "$env:USERPROFILE\.claude\skills"
+git clone https://github.com/hubo068/aigc_rewrite.git aigc-rewrite
+```
+
+克隆完成后,目录结构应如下:
+```
+~/.claude/skills/aigc-rewrite/
+├── SKILL.md          # Skill 入口(含 frontmatter,Claude 自动加载)
+├── reference.md      # 完整原理参考
+├── checklist.md      # 人工注血核验清单
+├── analyze.py        # 文本指纹分析工具
+├── rewrite_helper.py # 改写辅助工具
+└── README.md         # 本文件
+```
+
+### 方式二: 手动下载
+
+1. 访问 [GitHub Releases](https://github.com/hubo068/aigc_rewrite/releases) 或点击仓库首页 **Code → Download ZIP**
+2. 解压后将文件夹重命名为 `aigc-rewrite`
+3. 将文件夹移动到 Claude Code skills 目录:
+   - **Windows**: `C:\Users\<用户名>\.claude\skills\aigc-rewrite\`
+   - **macOS / Linux**: `~/.claude/skills/aigc-rewrite/`
+
+### 验证安装
+
+```powershell
+# Windows
+$env:PYTHONIOENCODING="utf-8"
+python "$env:USERPROFILE\.claude\skills\aigc-rewrite\analyze.py" --help
+
+# macOS / Linux
+python ~/.claude/skills/aigc-rewrite/analyze.py --help
+```
+
+若正常输出帮助信息,则安装成功。
+
+### 在 Claude Code 中激活
+
+安装完成后,Claude Code 会自动识别 `SKILL.md` 中的 frontmatter。你可以通过以下方式验证 Skill 是否加载:
+
+1. 重启 Claude Code 或输入 `/reload`
+2. 输入 `/skills` 查看已加载的 Skill 列表,应能看到 `aigc-rewrite`
+3. 或直接输入触发词测试: `"帮我降AIGC"`
+
+> **注意**: 若 Skills 未自动加载,请检查 Claude Code 版本是否支持本地 Skills(需 v0.35+),并确认 `settings.json` 中 `skills` 配置项已启用。
+
 ## 通过 Claude Code 使用
 
 ### 方式一: 自然语言触发
